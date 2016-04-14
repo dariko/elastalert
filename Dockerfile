@@ -5,7 +5,7 @@ RUN tar -xzf /tmp/entrykit.tgz -C /bin entrykit \
     && entrykit --symlink \
     && true
 
-ENV ELASTALERT_VERSION 0.0.77
+ENV ELASTALERT_VERSION 0.0.78
 ENV ELASTALERT_URL https://github.com/Yelp/elastalert/archive/v${ELASTALERT_VERSION}.tar.gz
 ENV ELASTALERT_DIRECTORY /opt/elastalert-${ELASTALERT_VERSION}
 ENV ELASTALERT_RULES_DIRECTORY /etc/elastalert/rules
