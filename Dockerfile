@@ -1,14 +1,23 @@
 FROM python:2.7.11-alpine
 
+ADD https://github.com/progrium/entrykit/releases/download/v0.4.0/entrykit_0.4.0_Linux_x86_64.tgz /tmp/entrykit.tgz
+RUN tar -xzf /tmp/entrykit.tgz -C /bin entrykit \
+    && entrykit --symlink \
+    && true
+
 ENV ELASTALERT_VERSION 0.0.77
 ENV ELASTALERT_URL https://github.com/Yelp/elastalert/archive/v${ELASTALERT_VERSION}.tar.gz
 ENV ELASTALERT_DIRECTORY /opt/elastalert-${ELASTALERT_VERSION}
-ENV ELASTALERT_CONFIG /etc/elastalert/config.yml
+ENV ELASTALERT_RULES_DIRECTORY /etc/elastalert/rules
+ENV ELASTICSEARCH_HOST elasticsearch
+ENV ELASTICSEARCH_PORT 9200
+ENV ELASTALERT_INDEX .elastalert
+
+ADD ./files /
 
 RUN apk add --no-cache openssl ca-certificates python-dev gcc musl-dev \
-    && mkdir -p "$(dirname ${ELASTALERT_CONFIG})" \
     && mkdir -p "$(dirname ${ELASTALERT_DIRECTORY})" \
-    && wget -O - "${ELASTALERT_URL}" | tar xzC "$(dirname ${ELASTALERT_DIRECTORY})" \
+    && wget -O - "${ELASTALERT_URL}" | tar -xzC "$(dirname ${ELASTALERT_DIRECTORY})" \
     && ls -la /opt \
     && cd "${ELASTALERT_DIRECTORY}" \
     && pip install -r requirements.txt \
@@ -16,4 +25,9 @@ RUN apk add --no-cache openssl ca-certificates python-dev gcc musl-dev \
     && apk del python-dev musl-dev gcc \
     && true
 
-CMD ["elastalert", "--config", "${ELASTALERT_CONFIG}"]
+ENTRYPOINT [ \
+    "render", \
+        "/etc/elastalert/config.yml", \
+        "--", \
+    "elastalert", "--config", "/etc/elastalert/config.yml" \
+]
