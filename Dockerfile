@@ -12,6 +12,7 @@ ENV ELASTALERT_RULES_DIRECTORY /etc/elastalert/rules
 ENV ELASTICSEARCH_HOST elasticsearch
 ENV ELASTICSEARCH_PORT 9200
 ENV ELASTALERT_INDEX .elastalert
+ENV PYTHONPATH /opt/elastalert_addons
 
 RUN apk add --no-cache openssl ca-certificates python-dev gcc musl-dev \
     && mkdir -p "$(dirname ${ELASTALERT_DIRECTORY})" \
