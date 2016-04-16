@@ -13,8 +13,6 @@ ENV ELASTICSEARCH_HOST elasticsearch
 ENV ELASTICSEARCH_PORT 9200
 ENV ELASTALERT_INDEX .elastalert
 
-ADD ./files /
-
 RUN apk add --no-cache openssl ca-certificates python-dev gcc musl-dev \
     && mkdir -p "$(dirname ${ELASTALERT_DIRECTORY})" \
     && wget -O - "${ELASTALERT_URL}" | tar -xzC "$(dirname ${ELASTALERT_DIRECTORY})" \
@@ -25,9 +23,14 @@ RUN apk add --no-cache openssl ca-certificates python-dev gcc musl-dev \
     && apk del python-dev musl-dev gcc \
     && true
 
+ADD ./files /
+
 ENTRYPOINT [ \
     "render", \
-        "/etc/elastalert/config.yml", \
+        "/etc/elastalert/config.yaml", \
         "--", \
-    "elastalert", "--config", "/etc/elastalert/config.yml" \
+    "switch", \
+        "shell=/bin/sh", \
+        "--", \
+    "elastalert", "--config", "/etc/elastalert/config.yaml" \
 ]
