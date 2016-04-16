@@ -29,6 +29,9 @@ ENTRYPOINT [ \
     "render", \
         "/etc/elastalert/config.yaml", \
         "--", \
+    "prehook", \
+        "/usr/local/bin/init_elastalert_index.sh", \
+        "--", \
     "switch", \
         "shell=/bin/sh", \
         "--", \
