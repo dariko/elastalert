@@ -5,9 +5,9 @@ RUN tar -xzf /tmp/entrykit.tgz -C /bin entrykit \
     && entrykit --symlink \
     && true
 
-ENV ELASTALERT_VERSION 0.0.78
-ENV ELASTALERT_URL https://github.com/Yelp/elastalert/archive/v${ELASTALERT_VERSION}.tar.gz
-ENV ELASTALERT_DIRECTORY /opt/elastalert-${ELASTALERT_VERSION}
+ENV ELASTALERT_GITREF 25ba155
+ENV ELASTALERT_URL https://api.github.com/repos/Yelp/elastalert/tarball/${ELASTALERT_GITREF}
+ENV ELASTALERT_DIRECTORY /opt/Yelp-elastalert-${ELASTALERT_GITREF}
 ENV ELASTALERT_RULES_DIRECTORY /etc/elastalert/rules
 ENV ELASTICSEARCH_HOST elasticsearch
 ENV ELASTICSEARCH_PORT 9200
