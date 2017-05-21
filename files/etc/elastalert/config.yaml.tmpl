@@ -21,6 +21,12 @@ es_host: {{ var "ELASTICSEARCH_HOST" | default "elasticsearch" }}
 # The elasticsearch port
 es_port: {{ var "ELASTICSEARCH_PORT" | default "9200" }}
 
+# Option basic-auth username and password for Elasticsearch
+{{if var "ELASTICSEARCH_USERNAME" }}
+es_username: {{var "ELASTICSEARCH_USERNAME"}}
+es_password: {{var "ELASTICSEARCH_PASSWORD"}}
+{{ end}}
+
 # The index on es_host which is used for metadata storage
 # This can be a unmapped index, but it is recommended that you run
 # elastalert-create-index to set a mapping
